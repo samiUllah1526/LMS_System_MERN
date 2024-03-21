@@ -1,6 +1,6 @@
-import { app } from "./app";
-import { connectDB } from "./utils/db";
 require("dotenv").config();
+import { app } from "./app";
+import { connectDB } from "./config";
 
 
 app.listen(process.env.PORT, () => {

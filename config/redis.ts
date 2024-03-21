@@ -1,4 +1,3 @@
-require('dotenv').config()
 import { Redis } from "ioredis";
 
 const getRedisURL = () => {
