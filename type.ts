@@ -2,6 +2,12 @@ declare namespace NodeJS {
     export interface ProcessEnv {
         PORT: string;
         ORIGIN: string;
+        CLOUDINARY_API_KEY: string;
+        CLOUDINARY_SECRET: string;
+        CLOUDINARY_NAME: string;
+        DB_URI: string;
+        NODE_ENV: 'DEVELOPMENT' | 'PRODUCTION';
+        REDIS_URL: string;
     }
 }
 
