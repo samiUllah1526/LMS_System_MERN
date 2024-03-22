@@ -2,6 +2,7 @@ import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import { notFoundError } from "./utils/errors";
+import { errorMiddleWare } from "./middleWares";
 
 export const app = express();
 
@@ -23,6 +24,8 @@ app.get("/test", (req: Request, res: Response, next: NextFunction) => {
 
 app.all('/', function(req, res) {
     console.log("All catch route")
-    const message = notFoundError(`Route ${req.originalUrl} not found`)
-    res.status(404).json({ message });
+    const err = notFoundError(`Route ${req.originalUrl} not found`)
+    res.status(err.statusCode).json(err);
 });
+
+app.use(errorMiddleWare)

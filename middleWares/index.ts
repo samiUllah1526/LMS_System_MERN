@@ -1,0 +1,1 @@
+export { errorMiddleWare } from "./errorsMiddleware";
