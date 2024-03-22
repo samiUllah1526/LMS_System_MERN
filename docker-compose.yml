@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  mongoDB:
+    image: mongo:latest
+    env_file:
+      - ./.env
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo_vol:/data/db
+volumes:
+  mongo_vol:
+    driver: local
