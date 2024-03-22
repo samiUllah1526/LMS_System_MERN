@@ -1,6 +1,7 @@
 import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import { notFoundError } from "./utils/errors";
 
 export const app = express();
 
@@ -20,7 +21,8 @@ app.get("/test", (req: Request, res: Response, next: NextFunction) => {
     res.status(200).json({ success: true, message: "Server is running" });
   });
 
-app.all('*', function(req, res) {
+app.all('/', function(req, res) {
     console.log("All catch route")
-    res.status(404).json({ message: `Route ${req.originalUrl} not found` });
+    const message = notFoundError(`Route ${req.originalUrl} not found`)
+    res.status(404).json({ message });
 });
