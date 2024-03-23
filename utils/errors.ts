@@ -1,9 +1,7 @@
 type Status = typeof STATUS[keyof typeof STATUS];
-type StatusMap = {
-    [key: string]: { message: string, code: number };
-};;
 
-const STATUS: StatusMap = { 
+
+const STATUS = { 
     BAD_REQUEST: { message: "Bad Request", code: 400 }, 
     UNAUTHORIZED: { message: "Unauthorized", code: 401 }, 
     FORBIDDEN: { message: "Forbidden", code: 403 },  
