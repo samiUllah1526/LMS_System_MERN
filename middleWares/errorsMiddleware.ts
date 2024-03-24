@@ -1,5 +1,5 @@
 import express, { NextFunction, Request, Response } from "express";
-import { badRequestError, unauthorizedError } from "../utils/errors";
+import { badRequestError404, unauthorizedError401 } from "../utils/errors";
 
 type f = (req: Request, res: Response,  next: NextFunction) => void;
 export const catchAsyncErrors = (func: f) => (req: Request, res: Response,  next: NextFunction) => {
@@ -12,26 +12,26 @@ export const errorMiddleWare = (err: any, req: Request, res: Response,  next: Ne
 
     if(err.name === "CastError") {
         const description = `Resource not found ${err.path}`
-        err = badRequestError(description)
+        err = badRequestError404(description)
         res.status(err.statusCode).json(err);
     }
 
     //duplicate key error
     if(err.code === 11000) {
         const description = `Duplicate ${Object.keys(err.keyValue)} entered`
-        err = badRequestError(description)
+        err = badRequestError404(description)
         res.status(err.statusCode).json(err);
     }
 
     if(err.name === "JsonWebTokenError") {
         const description = `Invalid access token`
-        err = unauthorizedError(description)
+        err = unauthorizedError401(description)
         res.status(err.statusCode).json(err);
     }
 
     if(err.name === "TokenExpiredError") {
         const description = `Expired access token`
-        err = unauthorizedError(description)
+        err = unauthorizedError401(description)
         res.status(err.statusCode).json(err);
     }
 
