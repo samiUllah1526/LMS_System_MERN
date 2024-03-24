@@ -1,30 +1,18 @@
 import nodemailer from 'nodemailer'
 import { render } from '@react-email/render';
-import { Email } from './react_email_templates/otp';
+import { OTPVerificationEmail } from './react_email_templates/OTPVerificationEmail';
 
 type SendEmailType = { email: string, subject: string, template: string }
 export const sendEmail = async ({ email, subject, template }: SendEmailType) => {
     const transporter = nodemailer.createTransport({
-        service: process.env.SMTP_EMAIL_SERVICE_NAME,
+        host: process.env.SMTP_EMAIL_SERVICE_NAME ?? 'smtp-relay.sendinblue.com',
+        port: parseInt(process.env.SMTP_EMAIL_SERVER_PORT) ?? 587,
+        secure: true,
         auth: {
             user: process.env.SMTP_EMAIL_SERVICE_USERNAME,
             pass: process.env.SMTP_EMAIL_SERVICE_PASSWORD,
         },
-        tls: {
-            rejectUnauthorized: false,
-        },
     })
-
-    // try {
-    // const verifyPromise = promisify(transporter.verify);
-    // await verifyPromise();
-    // const isTransporterReady = transporter.verify()
-    // console.info('Server is ready to send messages');
-    // } catch (error) {
-    // console.error('Server cannot send messages');
-    // console.error(error);
-    // return
-    // }
 
     try {
         const isTransporterReady = await transporter.verify()
@@ -40,9 +28,9 @@ export const sendEmail = async ({ email, subject, template }: SendEmailType) => 
 
     const mailOptions = {
         subject,
-        from: process.env.SYTEM_GENERATED_SENDER_EMAIL,
-        to: email,
-        html: template,
+        from: process.env.SYTEM_GENERATED_SENDER_EMAIL ?? "no-reply@lmsBySami.com",
+        to: email ?? "sami.naazar1526@gmail.com",
+        html: template ?? "<h1>Template did not load</h1>",
     }
 
     try {
@@ -57,7 +45,7 @@ export const sendEmail = async ({ email, subject, template }: SendEmailType) => 
 
 type SendOtpEmail = Omit<SendEmailType, "template" | "subject"> & { payload: { name: string; activationCode: string; } };
 export const sendOtpEmail = async ({ email, payload }: SendOtpEmail) => {
-    const template = render(Email(payload));
+    const template = render(OTPVerificationEmail(payload));
     await sendEmail({ email, subject: "Verification OTP for Account Activation", template })
     return "email sent"
 }

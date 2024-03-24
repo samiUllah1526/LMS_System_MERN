@@ -14,6 +14,7 @@ declare namespace NodeJS {
         SMTP_EMAIL_SERVICE_USERNAME: string;
         SMTP_EMAIL_SERVICE_PASSWORD: string;
         SYTEM_GENERATED_SENDER_EMAIL: string;
+        SMTP_EMAIL_SERVER_PORT: string;
     }
 }
 

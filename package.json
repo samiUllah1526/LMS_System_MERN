@@ -7,13 +7,13 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "ts-node-dev --respawn --transpile-only server.ts",
     "email:preview": "email dev --port 3000 --dir services/email/react_email_templates",
-    "email:build": "email export --dir services/email/react_email_templates --outDir services/email/build_templates"
+    "email:build": "email build --port 3000 --dir services/email/react_email_templates --packageManager yarn",
+    "email:export": "email export --dir services/email/react_email_templates --outDir services/email/build_templates"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@react-email/button": "0.0.14",
-    "@react-email/html": "0.0.7",
+    "@react-email/components": "0.0.15",
     "@react-email/render": "0.0.12",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
