@@ -8,6 +8,12 @@ declare namespace NodeJS {
         DB_URI: string;
         NODE_ENV: 'DEVELOPMENT' | 'PRODUCTION';
         REDIS_URL: string;
+        ACTIVATION_TOKEN_SECRET: string;
+        ACTIVATION_TOKEN_EXPIRY: string;
+        SMTP_EMAIL_SERVICE_NAME: string;
+        SMTP_EMAIL_SERVICE_USERNAME: string;
+        SMTP_EMAIL_SERVICE_PASSWORD: string;
+        SYTEM_GENERATED_SENDER_EMAIL: string;
     }
 }
 
