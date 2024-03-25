@@ -35,5 +35,6 @@ export const errorMiddleWare = (err: any, req: Request, res: Response,  next: Ne
         res.status(err.statusCode).json(err);
     }
 
+    console.log("Middleware error=>>>>>>", err)
     res.status(err.statusCode).json(err);
 }
