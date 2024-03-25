@@ -40,13 +40,7 @@ export const generateSecretKey = (size: number = 32): string => {
     return randomBytes.toString('hex');
 }
 
-/**
- * Generates a string representing a random number with a specified length.
- * Leading zeros will be preserved.
- * @example
- * generateStringNumber(4); // Possible output: "0342"
- */
-export const generateRandomCode = ({ length = 4 }: { length: number }): string => {
+export const generateRandomCode = ({ length = 4 }: { length: number }): number => {
     // Generate a random 16-byte buffer
     const randomBytes = crypto.randomBytes(8);
 
@@ -56,13 +50,14 @@ export const generateRandomCode = ({ length = 4 }: { length: number }): string =
     // Add 1000 to ensure the code starts from 1000 (optional)
     let code = randomInt + 1000
 
-    // Extract the last four digits (modulus 10000 ensures a 4-digit number)
-    // code = code % 10000;
-    // return code
-
+    // re-genrate the code if code is not 4 digits long
+    if(code.toString().length !== 4) {
+        return generateRandomCode({ length })
+    }
+    return code
     // Format the code as a string with leading zeros (optional)
-    // code = code.toString().padStart(4, '0')
-    return new Intl.NumberFormat('en', { minimumIntegerDigits: length, useGrouping: false }).format(code);
+    // code = code.toString().padStart(4, '0') 
+        //  new Intl.NumberFormat('en', { minimumIntegerDigits: length, useGrouping: false }).format(code);
 }
 
 type generateTokenType = {
@@ -75,14 +70,18 @@ export const generateToken = ({ payload, secret, expiresIn }: generateTokenType)
     return token;
 }
 
-type createActivationTokenType = { activationCode: string; user: Pick<IUser, "name" | "email" | "password">; }
+type createActivationTokenType = { activationCode: number; user: Pick<IUser, "name" | "email" | "password">; }
 export const createActivationToken = ({ user, activationCode }: createActivationTokenType) => {
     const payload = {
         user,
         activationCode,
     }
 
-    const token = generateToken({ payload, secret: process.env.ACTIVATION_TOKEN_SECRET, expiresIn: process.env.ACTIVATION_TOKEN_EXPIRY })
+    const token = generateToken({ 
+        payload, 
+        secret: process.env.ACTIVATION_TOKEN_SECRET, 
+        expiresIn: process.env.ACTIVATION_TOKEN_EXPIRY 
+    })
     return { token }
 }
 

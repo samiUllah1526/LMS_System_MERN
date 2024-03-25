@@ -9,14 +9,11 @@ import {
 import * as React from "react";
 
 interface OTPVerificationEmailProps {
-  activationCode?: string;
+  activationCode: number;
 }
 
-const baseUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : "";
 
-export const OTPVerificationEmail = ({
+export const OTPVerificationEmail = async ({
   activationCode,
 }: OTPVerificationEmailProps) => (
   <Html>
@@ -35,7 +32,7 @@ export const OTPVerificationEmail = ({
 );
 
 OTPVerificationEmail.PreviewProps = {
-  activationCode: "1448",
+  activationCode: 1448,
 } as OTPVerificationEmailProps;
 
 export default OTPVerificationEmail;
